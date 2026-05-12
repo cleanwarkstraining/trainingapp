@@ -15,6 +15,7 @@ type ProgressCtx = {
   progress: ProgressMap;
   updateProgress: (moduleId: string, update: Partial<ModuleProgress>) => void;
   resetProgress: () => void;
+  reloadForWorker: () => void;
 };
 
 const ProgressContext = createContext<ProgressCtx | null>(null);
@@ -30,25 +31,29 @@ function getStorageKey(): string {
 function getDefaultProgress(): ProgressMap {
   const map: ProgressMap = {};
   for (const m of MODULES) {
-    if (m.status === "completed") {
-      map[m.id] = { status: "completed", stage: "done" };
-    } else if (m.status === "in_progress") {
-      map[m.id] = { status: "in_progress", stage: "watch" };
-    } else {
-      map[m.id] = { status: "not_started", stage: "watch" };
-    }
+    map[m.id] = { status: "not_started", stage: "watch" };
   }
   return map;
+}
+
+function loadProgress(): ProgressMap {
+  const defaults = getDefaultProgress();
+  try {
+    const saved = localStorage.getItem(getStorageKey());
+    if (saved) return { ...defaults, ...JSON.parse(saved) };
+  } catch {}
+  return defaults;
 }
 
 export function ProgressProvider({ children }: { children: ReactNode }) {
   const [progress, setProgress] = useState<ProgressMap>(getDefaultProgress);
 
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem(getStorageKey());
-      if (saved) setProgress(JSON.parse(saved));
-    } catch {}
+    setProgress(loadProgress());
+  }, []);
+
+  const reloadForWorker = useCallback(() => {
+    setProgress(loadProgress());
   }, []);
 
   const updateProgress = useCallback((moduleId: string, update: Partial<ModuleProgress>) => {
@@ -69,7 +74,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <ProgressContext.Provider value={{ progress, updateProgress, resetProgress }}>
+    <ProgressContext.Provider value={{ progress, updateProgress, resetProgress, reloadForWorker }}>
       {children}
     </ProgressContext.Provider>
   );

@@ -5,12 +5,14 @@ import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { ChevronLeft } from "lucide-react";
 import { WORKERS } from "@/lib/data/mock-workers";
+import { useProgress } from "@/lib/progress";
 
 const CORRECT_PIN = "1234";
 
 export default function PinPage() {
   const router = useRouter();
   const t = useTranslations();
+  const { reloadForWorker } = useProgress();
   const [pin, setPin] = useState("");
   const [worker, setWorker] = useState(WORKERS[0]);
 
@@ -24,10 +26,11 @@ export default function PinPage() {
 
   useEffect(() => {
     if (pin.length === 4 && pin === CORRECT_PIN) {
+      reloadForWorker();
       const timer = setTimeout(() => router.push("/home"), 350);
       return () => clearTimeout(timer);
     }
-  }, [pin, router]);
+  }, [pin, router, reloadForWorker]);
 
   const press = (n: string) => {
     if (pin.length < 4) setPin(pin + n);
