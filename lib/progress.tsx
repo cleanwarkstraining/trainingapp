@@ -19,7 +19,13 @@ type ProgressCtx = {
 
 const ProgressContext = createContext<ProgressCtx | null>(null);
 
-const STORAGE_KEY = "cw-progress";
+function getStorageKey(): string {
+  try {
+    const wid = localStorage.getItem("cw-worker");
+    if (wid) return `cw-progress-${wid}`;
+  } catch {}
+  return "cw-progress";
+}
 
 function getDefaultProgress(): ProgressMap {
   const map: ProgressMap = {};
@@ -40,7 +46,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     try {
-      const saved = localStorage.getItem(STORAGE_KEY);
+      const saved = localStorage.getItem(getStorageKey());
       if (saved) setProgress(JSON.parse(saved));
     } catch {}
   }, []);
@@ -51,7 +57,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
         ...prev,
         [moduleId]: { ...prev[moduleId], ...update },
       };
-      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(next)); } catch {}
+      try { localStorage.setItem(getStorageKey(), JSON.stringify(next)); } catch {}
       return next;
     });
   }, []);
@@ -59,7 +65,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
   const resetProgress = useCallback(() => {
     const defaults = getDefaultProgress();
     setProgress(defaults);
-    try { localStorage.removeItem(STORAGE_KEY); } catch {}
+    try { localStorage.removeItem(getStorageKey()); } catch {}
   }, []);
 
   return (
