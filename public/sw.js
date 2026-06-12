@@ -1,4 +1,4 @@
-const CACHE = "cw-v1";
+const CACHE = "cw-v2";
 const PRECACHE = ["/", "/manifest.json", "/icons/icon-192.png"];
 
 self.addEventListener("install", (e) => {
@@ -17,23 +17,38 @@ self.addEventListener("activate", (e) => {
 
 self.addEventListener("fetch", (e) => {
   if (e.request.method !== "GET") return;
-  if (e.request.url.includes("/api/")) {
-    e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
-  } else {
+
+  // Network-first for navigation (HTML pages) and API calls
+  // so locale changes, auth, and dynamic data always get fresh responses
+  if (e.request.mode === "navigate" || e.request.url.includes("/api/")) {
     e.respondWith(
-      caches.match(e.request).then(
-        (cached) =>
-          cached ||
-          fetch(e.request)
-            .then((r) => {
-              if (r.status === 200) {
-                const copy = r.clone();
-                caches.open(CACHE).then((cache) => cache.put(e.request, copy));
-              }
-              return r;
-            })
-            .catch(() => cached)
-      )
+      fetch(e.request)
+        .then((r) => {
+          if (r.status === 200) {
+            const copy = r.clone();
+            caches.open(CACHE).then((cache) => cache.put(e.request, copy));
+          }
+          return r;
+        })
+        .catch(() => caches.match(e.request))
     );
+    return;
   }
+
+  // Cache-first for static assets (JS, CSS, images, fonts)
+  e.respondWith(
+    caches.match(e.request).then(
+      (cached) =>
+        cached ||
+        fetch(e.request)
+          .then((r) => {
+            if (r.status === 200) {
+              const copy = r.clone();
+              caches.open(CACHE).then((cache) => cache.put(e.request, copy));
+            }
+            return r;
+          })
+          .catch(() => cached)
+    )
+  );
 });

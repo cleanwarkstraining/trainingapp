@@ -10,7 +10,7 @@ export default function LanguagePickerPage() {
 
   const pickLang = (lang: string) => {
     localStorage.setItem("cw-lang", lang);
-    document.cookie = `lang=${lang};path=/;max-age=31536000`;
+    document.cookie = `lang=${lang}; path=/; max-age=${60 * 60 * 24 * 365}; SameSite=Lax`;
     router.push("/login");
   };
 

@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { Languages, Volume2, Settings, X, ChevronRight } from "lucide-react";
 import { WORKERS } from "@/lib/data/mock-workers";
 import { LANGS, LANG_META } from "@/lib/i18n/config";
@@ -42,24 +42,30 @@ function Row({
 export default function MePage() {
   const router = useRouter();
   const t = useTranslations();
+  const currentLocale = useLocale();
+  const [isPending, startTransition] = useTransition();
   const [worker, setWorker] = useState(WORKERS[0]);
   const [showLangPicker, setShowLangPicker] = useState(false);
-  const [currentLang, setCurrentLang] = useState("en");
+  const [currentLang, setCurrentLang] = useState(currentLocale);
 
   useEffect(() => {
     const wid = localStorage.getItem("cw-worker");
     const found = WORKERS.find((w) => w.id === wid);
     if (found) setWorker(found);
-    const lang = localStorage.getItem("cw-lang") || "en";
-    setCurrentLang(lang);
   }, []);
 
   const switchLang = (lang: string) => {
+    if (lang === currentLang) {
+      setShowLangPicker(false);
+      return;
+    }
     localStorage.setItem("cw-lang", lang);
-    document.cookie = `lang=${lang};path=/;max-age=31536000`;
+    document.cookie = `lang=${lang}; path=/; max-age=${60 * 60 * 24 * 365}; SameSite=Lax`;
     setCurrentLang(lang);
     setShowLangPicker(false);
-    window.location.reload();
+    startTransition(() => {
+      router.refresh();
+    });
   };
 
   const logout = () => {
@@ -131,7 +137,8 @@ export default function MePage() {
                   <button
                     key={lang}
                     onClick={() => switchLang(lang)}
-                    className="w-full flex items-center justify-between p-3 rounded-xl transition"
+                    disabled={isPending}
+                    className={`w-full flex items-center justify-between p-3 rounded-xl transition ${isPending ? "opacity-50" : ""}`}
                     style={{
                       background: isActive ? "#4B8EC81A" : "#fff",
                       border: `1.5px solid ${isActive ? "#4B8EC8" : "#E7E2D8"}`,
