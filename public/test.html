@@ -1,0 +1,1036 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#468dcb" />
+<title>Clean Warks Training — Test Checklist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --brand: #468dcb;
+    --brand-dark: #2f6fa6;
+    --brand-navy: #122948;
+    --ink: #1F2A3A;
+    --ink2: #475467;
+    --ink3: #94A3B8;
+    --bg: #FAF7F2;
+    --surface: #FFFFFF;
+    --line: #E7E2D8;
+    --green: #2E8B57;
+    --green-soft: #E6F4ED;
+    --warm: #F4A621;
+    --warm-soft: #FEF3C7;
+    --warm-dark: #92400E;
+    --red: #DC4136;
+    --red-soft: #FBEAE9;
+    --display: 'Bricolage Grotesque', system-ui, sans-serif;
+    --body: 'Plus Jakarta Sans', system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; padding: 0; background: var(--bg); font-family: var(--body); color: var(--ink); }
+
+  /* Header */
+  header {
+    background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%);
+    color: #fff;
+    padding: 18px 20px 22px;
+    position: sticky; top: 0; z-index: 30;
+    box-shadow: 0 2px 10px rgba(0,0,0,.08);
+  }
+  .brand { display: flex; align-items: center; gap: 10px; }
+  .brand-dot {
+    width: 36px; height: 36px; border-radius: 10px;
+    background: rgba(255,255,255,.18);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--display); font-weight: 800; font-size: 18px;
+  }
+  .brand-name { font-family: var(--display); font-weight: 800; font-size: 16px; letter-spacing: -.01em; }
+  .brand-sub { font-size: 11px; opacity: .85; margin-top: 1px; }
+  h1 {
+    font-family: var(--display); font-weight: 800; font-size: 22px;
+    letter-spacing: -.02em; margin: 12px 0 4px;
+  }
+  .lede { font-size: 13px; line-height: 1.5; opacity: .92; margin: 0; }
+
+  /* Progress bar in header */
+  .progress-wrap {
+    margin-top: 14px;
+    background: rgba(255,255,255,.18);
+    height: 10px; border-radius: 999px; overflow: hidden;
+    position: relative;
+  }
+  .progress-bar {
+    height: 100%; background: linear-gradient(90deg, #FFD700 0%, #F4A621 100%);
+    border-radius: 999px; transition: width .3s ease;
+    width: 0%;
+  }
+  .progress-text {
+    margin-top: 8px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 12px; font-weight: 600;
+  }
+  .stat-pills { display: flex; gap: 6px; }
+  .pill {
+    padding: 3px 9px; border-radius: 999px;
+    font-size: 11px; font-weight: 700;
+    background: rgba(255,255,255,.2);
+  }
+  .pill.pass { background: rgba(46,139,87,.55); }
+  .pill.fail { background: rgba(220,65,54,.65); }
+
+  /* Intro card */
+  main { padding: 14px 14px 130px; max-width: 720px; margin: 0 auto; }
+  .intro {
+    background: var(--surface);
+    border: 1.5px solid var(--line);
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 14px;
+  }
+  .intro h2 {
+    font-family: var(--display); font-size: 17px; font-weight: 800;
+    letter-spacing: -.01em; margin: 0 0 8px;
+  }
+  .intro p { margin: 0 0 6px; font-size: 14px; line-height: 1.55; color: var(--ink2); }
+  .intro .key {
+    margin-top: 12px; background: var(--warm-soft);
+    border-radius: 10px; padding: 10px 12px; font-size: 13px;
+    color: var(--warm-dark); line-height: 1.5;
+  }
+
+  /* Sections */
+  details.section {
+    background: var(--surface);
+    border: 1.5px solid var(--line);
+    border-radius: 16px;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  details.section[open] { box-shadow: 0 4px 14px -8px rgba(31,42,58,.18); }
+  summary.section-head {
+    list-style: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 10px;
+  }
+  summary::-webkit-details-marker { display: none; }
+  .section-title {
+    flex: 1; min-width: 0;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-letter {
+    width: 32px; height: 32px; border-radius: 9px;
+    background: var(--brand); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--display); font-weight: 800; font-size: 15px;
+    flex-shrink: 0;
+  }
+  .section-name {
+    font-family: var(--display); font-weight: 700; font-size: 14px;
+    letter-spacing: -.01em; color: var(--ink);
+    line-height: 1.25;
+  }
+  .section-time { font-size: 11px; color: var(--ink3); margin-top: 1px; font-weight: 500; }
+  .section-meta {
+    display: flex; align-items: center; gap: 8px;
+    flex-shrink: 0;
+  }
+  .section-progress {
+    font-size: 12px; font-weight: 700; color: var(--ink2);
+    background: #F1F5F9; padding: 3px 9px; border-radius: 999px;
+    white-space: nowrap;
+  }
+  .section-progress.complete { background: var(--green-soft); color: var(--green); }
+  .section-progress.has-fail { background: var(--red-soft); color: var(--red); }
+  .chev {
+    transition: transform .2s; color: var(--ink3);
+    flex-shrink: 0;
+  }
+  details[open] .chev { transform: rotate(180deg); }
+  .section-body { padding: 0 16px 14px; }
+  .section-intro {
+    font-size: 13px; line-height: 1.5; color: var(--ink2);
+    padding: 0 0 12px; margin: 0;
+  }
+
+  /* Test items */
+  .item {
+    border-top: 1px solid var(--line);
+    padding: 14px 0;
+  }
+  .item:first-of-type { border-top: 0; }
+  .item-head {
+    display: flex; align-items: flex-start; gap: 10px;
+  }
+  .item-code {
+    font-family: var(--display); font-weight: 800; font-size: 13px;
+    color: var(--brand); flex-shrink: 0; min-width: 38px;
+  }
+  .item-title {
+    font-weight: 700; font-size: 14px; color: var(--ink);
+    line-height: 1.35;
+  }
+  .item-body {
+    margin-top: 8px; padding-left: 48px;
+    font-size: 13px; line-height: 1.55; color: var(--ink2);
+  }
+  .item-body p { margin: 0 0 8px; }
+  .item-body p:last-child { margin-bottom: 0; }
+  .item-body .label-good {
+    display: inline-block; font-size: 11px; font-weight: 700;
+    background: var(--green-soft); color: var(--green);
+    padding: 1px 7px; border-radius: 5px; margin-right: 4px;
+    text-transform: uppercase; letter-spacing: .04em;
+  }
+  .item-body .label-bad {
+    display: inline-block; font-size: 11px; font-weight: 700;
+    background: var(--red-soft); color: var(--red);
+    padding: 1px 7px; border-radius: 5px; margin-right: 4px;
+    text-transform: uppercase; letter-spacing: .04em;
+  }
+  .item-body strong { color: var(--ink); }
+  .item-body code {
+    background: #F1F5F9; padding: 1px 6px; border-radius: 4px;
+    font-family: monospace; font-size: 12px; color: var(--ink);
+  }
+
+  .item-actions {
+    margin-top: 10px; padding-left: 48px;
+    display: flex; gap: 8px;
+  }
+  .pf-btn {
+    flex: 1;
+    background: #fff; border: 1.5px solid var(--line);
+    border-radius: 10px; padding: 9px 6px;
+    font-family: var(--body); font-weight: 700; font-size: 13px;
+    color: var(--ink2);
+    cursor: pointer; transition: all .15s;
+    display: flex; align-items: center; justify-content: center; gap: 5px;
+  }
+  .pf-btn:active { transform: scale(.97); }
+  .pf-btn[data-state="pass"].pass-btn {
+    background: var(--green); border-color: var(--green); color: #fff;
+  }
+  .pf-btn[data-state="fail"].fail-btn {
+    background: var(--red); border-color: var(--red); color: #fff;
+  }
+  .pf-btn[data-state="skip"].skip-btn {
+    background: var(--ink3); border-color: var(--ink3); color: #fff;
+  }
+
+  .note-wrap {
+    margin-top: 10px; padding-left: 48px;
+    display: none;
+  }
+  .note-wrap.show { display: block; }
+  .note-wrap label {
+    display: block; font-size: 12px; font-weight: 700; color: var(--red);
+    margin-bottom: 6px;
+  }
+  .note-wrap textarea {
+    width: 100%; min-height: 60px;
+    background: var(--red-soft);
+    border: 1.5px solid #F5BBB6;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-family: var(--body); font-size: 13px; color: var(--ink);
+    resize: vertical;
+  }
+  .note-wrap textarea:focus { outline: 2px solid var(--red); outline-offset: -1px; }
+
+  /* Bottom CTA */
+  .bottom-cta {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: rgba(255,255,255,.96);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid var(--line);
+    padding: 10px 14px max(10px, env(safe-area-inset-bottom));
+    z-index: 20;
+    display: flex; gap: 10px; align-items: center;
+  }
+  .bottom-summary {
+    flex: 1; font-size: 12px; color: var(--ink2); line-height: 1.3;
+    min-width: 0;
+  }
+  .bottom-summary strong { color: var(--ink); display: block; font-size: 13px; }
+  .submit-btn {
+    background: var(--brand); color: #fff; border: 0;
+    font-family: var(--body); font-weight: 800; font-size: 14px;
+    padding: 12px 18px; border-radius: 12px;
+    cursor: pointer; white-space: nowrap;
+    transition: transform .15s;
+  }
+  .submit-btn:active { transform: scale(.97); }
+  .submit-btn:disabled { background: #CBD5E1; cursor: not-allowed; }
+
+  /* Modal */
+  .modal-bg {
+    position: fixed; inset: 0;
+    background: rgba(18,41,72,.7);
+    display: none; align-items: center; justify-content: center;
+    z-index: 50;
+    padding: 14px;
+  }
+  .modal-bg.open { display: flex; }
+  .modal {
+    background: #fff; border-radius: 18px;
+    max-width: 520px; width: 100%;
+    max-height: 86vh; overflow-y: auto;
+    padding: 20px;
+  }
+  .modal h3 {
+    font-family: var(--display); font-size: 20px; font-weight: 800;
+    letter-spacing: -.02em; margin: 0 0 4px;
+  }
+  .modal .modal-sub { font-size: 13px; color: var(--ink2); margin: 0 0 16px; }
+  .summary-row {
+    display: flex; gap: 8px; margin-bottom: 16px;
+  }
+  .summary-card {
+    flex: 1;
+    border-radius: 12px;
+    padding: 10px 12px;
+    text-align: center;
+  }
+  .summary-card .n { font-family: var(--display); font-size: 26px; font-weight: 800; line-height: 1; }
+  .summary-card .l { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; margin-top: 4px; }
+  .summary-card.pass { background: var(--green-soft); color: var(--green); }
+  .summary-card.fail { background: var(--red-soft); color: var(--red); }
+  .summary-card.skip { background: #F1F5F9; color: var(--ink2); }
+
+  .report-box {
+    background: var(--bg);
+    border: 1.5px solid var(--line);
+    border-radius: 12px;
+    padding: 14px;
+    font-family: monospace; font-size: 12px;
+    color: var(--ink);
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 240px; overflow-y: auto;
+    margin-bottom: 14px;
+  }
+  .name-input {
+    width: 100%; padding: 11px 14px; margin-bottom: 14px;
+    border: 1.5px solid var(--line); border-radius: 10px;
+    font-family: var(--body); font-size: 14px;
+    background: var(--bg);
+  }
+  .name-input:focus { outline: 2px solid var(--brand); outline-offset: -1px; border-color: var(--brand); }
+  .modal-actions { display: flex; gap: 8px; }
+  .modal-btn {
+    flex: 1; padding: 12px; border-radius: 10px; border: 0;
+    font-family: var(--body); font-weight: 700; font-size: 14px;
+    cursor: pointer; transition: transform .15s;
+  }
+  .modal-btn:active { transform: scale(.97); }
+  .modal-btn.copy { background: var(--ink); color: #fff; }
+  .modal-btn.whatsapp { background: #25D366; color: #fff; }
+  .modal-btn.close { background: #F1F5F9; color: var(--ink); }
+  .copied {
+    text-align: center; font-size: 12px; font-weight: 700;
+    color: var(--green); margin-top: 10px;
+    opacity: 0; transition: opacity .2s;
+  }
+  .copied.show { opacity: 1; }
+
+  /* Section colors for letters */
+  .sl-A { background: #4B8EC8; }
+  .sl-B { background: #F4A621; }
+  .sl-C { background: #7C3AED; }
+  .sl-D { background: #2E8B57; }
+  .sl-E { background: #EC4899; }
+  .sl-F { background: #DC4136; }
+  .sl-G { background: #1F2A3A; }
+  .sl-H { background: #0EA5E9; }
+  .sl-I { background: #7C3AED; }
+  .sl-J { background: #94A3B8; }
+  .sl-K { background: #F4A621; }
+  .sl-L { background: #2E8B57; }
+
+  /* Reset link */
+  .reset-link {
+    display: inline-block;
+    margin-top: 14px;
+    font-size: 12px; color: var(--ink3);
+    text-decoration: underline;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="brand-dot">CW</div>
+    <div>
+      <div class="brand-name">Clean Warks</div>
+      <div class="brand-sub">Training App — Test Checklist</div>
+    </div>
+  </div>
+  <h1>Welcome 👋</h1>
+  <p class="lede">Please test the new staff training app on your phone. This should take about 30–40 minutes. Tap Pass or Fail for each item. Your progress saves automatically.</p>
+  <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
+  <div class="progress-text">
+    <span id="progressLabel">0 of 0 tests done</span>
+    <div class="stat-pills">
+      <span class="pill pass" id="passPill">✓ 0</span>
+      <span class="pill fail" id="failPill">✕ 0</span>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<div class="intro">
+  <h2>What you are testing</h2>
+  <p>We built a training app for our cleaning staff. They will use it on their phones to learn how to clean a bathroom, use machines, mix chemicals, and so on. It works in 8 languages.</p>
+  <p>Before we give it to workers, please test it carefully. For each item below: tap <strong>Pass ✓</strong> if it works, or <strong>Fail ✕</strong> if something is wrong (then write a short note and take a screenshot).</p>
+  <div class="key">
+    <strong>App URL:</strong> training.cleanwarks.com<br>
+    <strong>Demo PIN:</strong> 1234<br>
+    <strong>What to use:</strong> An Android phone with Chrome browser, mobile data on
+  </div>
+</div>
+
+<!-- SECTIONS WILL BE INJECTED HERE -->
+<div id="sections"></div>
+
+<a class="reset-link" id="resetBtn">Clear all my answers and start over</a>
+
+</main>
+
+<div class="bottom-cta">
+  <div class="bottom-summary">
+    <strong id="ctaTitle">Keep testing</strong>
+    <span id="ctaSub">Tap each item Pass or Fail</span>
+  </div>
+  <button class="submit-btn" id="submitBtn" disabled>Generate Report</button>
+</div>
+
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <h3>Test Report</h3>
+    <p class="modal-sub">Send this to Shintu via WhatsApp.</p>
+
+    <input type="text" class="name-input" id="reporterName" placeholder="Your name (so Shintu knows who tested)" />
+
+    <div class="summary-row">
+      <div class="summary-card pass"><div class="n" id="finalPass">0</div><div class="l">Pass</div></div>
+      <div class="summary-card fail"><div class="n" id="finalFail">0</div><div class="l">Fail</div></div>
+      <div class="summary-card skip"><div class="n" id="finalSkip">0</div><div class="l">Skip</div></div>
+    </div>
+
+    <div class="report-box" id="reportBox"></div>
+
+    <div class="modal-actions">
+      <button class="modal-btn close" id="closeBtn">Close</button>
+      <button class="modal-btn copy" id="copyBtn">Copy text</button>
+      <button class="modal-btn whatsapp" id="whatsappBtn">Send WhatsApp</button>
+    </div>
+    <div class="copied" id="copied">Copied to clipboard ✓</div>
+  </div>
+</div>
+
+<script>
+/* ---------- TEST DATA ---------- */
+const CHECKLIST = [
+  {
+    letter: 'A', title: 'Open the app for the first time', time: '5 min',
+    intro: 'Do these steps in order, on a fresh phone or after clearing site data.',
+    items: [
+      { code: 'A.1', title: 'Open the app in Chrome',
+        action: 'Open Chrome. Type training.cleanwarks.com in the address bar. Press Enter.',
+        good: 'Page loads within 5 seconds. Welcome screen with logo and 8 language options visible.',
+        bad: 'Error, very slow load, missing logo, weird layout.' },
+      { code: 'A.2', title: 'Install as app on home screen',
+        action: 'Tap three-dot menu (⋮) at top right. Look for "Install app" or "Add to Home screen". Tap it.',
+        good: 'Clean Warks icon appears on your phone\'s home screen.',
+        bad: 'No install option, or icon does not appear after installing.' },
+      { code: 'A.3', title: 'Open from home screen — no browser bar',
+        action: 'Close Chrome. Tap the Clean Warks icon on home screen.',
+        good: 'App opens by itself, without showing Chrome address bar. Looks like a real app.',
+        bad: 'Opens inside Chrome with address bar visible — install did not work properly.' }
+    ]
+  },
+  {
+    letter: 'B', title: 'Language picker screen', time: '5 min',
+    intro: 'The first screen shows 8 language options.',
+    items: [
+      { code: 'B.1', title: 'All 8 languages visible in their script',
+        action: 'Look carefully at all 8 buttons.',
+        good: 'You see: English, हिन्दी, മലയാളം, தமிழ், বাংলা, नेपाली, অসমীয়া, ଓଡ଼ିଆ — each in its own script clearly.',
+        bad: 'Empty boxes (□□□), question marks (???), or strange characters. Especially watch Assamese and Odia — these fonts are the trickiest.' },
+      { code: 'B.2', title: 'English audio speaks',
+        action: 'Tap the speaker icon 🔊 next to English.',
+        good: 'Phone speaks "Welcome to Clean Warks" in English.',
+        bad: 'No sound, wrong language, or error.' },
+      { code: 'B.3', title: 'Hindi audio speaks',
+        action: 'Tap speaker icon next to हिन्दी.',
+        good: 'Phone speaks the welcome message in Hindi.',
+        bad: 'No sound, or wrong language.' },
+      { code: 'B.4', title: 'Malayalam shows "Audio coming soon"',
+        action: 'Tap speaker icon next to മലയാളം.',
+        good: '"Audio coming soon" message appears. Button is disabled or greyed. NO sound plays.',
+        bad: 'It tries to play sound (this is wrong — Malayalam audio will be recorded later) OR button does nothing silently with no message at all.' },
+      { code: 'B.5', title: 'Assamese shows "Audio coming soon"',
+        action: 'Tap speaker icon next to অসমীয়া.',
+        good: 'Shows "Audio coming soon".',
+        bad: 'Tries to play sound, or silent failure.' },
+      { code: 'B.6', title: 'Odia shows "Audio coming soon"',
+        action: 'Tap speaker icon next to ଓଡ଼ିଆ.',
+        good: 'Shows "Audio coming soon".',
+        bad: 'Tries to play sound, or silent failure.' },
+      { code: 'B.7', title: 'Tamil, Bengali, Nepali audio works',
+        action: 'Tap each of the three speaker icons.',
+        good: 'All three speak. (Nepali may sound like Hindi — that is OK.)',
+        bad: 'Any of them silent or wrong language.' }
+    ]
+  },
+  {
+    letter: 'C', title: 'Login flow', time: '5 min',
+    intro: 'Test the worker login.',
+    items: [
+      { code: 'C.1', title: 'Tap English to continue',
+        action: 'Tap on English.',
+        good: 'Moves to worker picker — a grid of 6 worker profiles.' },
+      { code: 'C.2', title: 'Six workers shown',
+        action: 'Look at the worker grid.',
+        good: '6 colored circles with names: Rajan, Priya, Anil, Lakshmi, Suresh, Meera.',
+        bad: 'Fewer than 6 workers, missing names, broken images.' },
+      { code: 'C.3', title: 'Pick worker — go to PIN screen',
+        action: 'Tap on Rajan (orange circle).',
+        good: 'PIN entry screen with 4 empty dots and numpad.' },
+      { code: 'C.4', title: 'Wrong PIN is rejected',
+        action: 'Type 9999.',
+        good: 'After 4th digit, dots turn red. "Try again" message appears. Does NOT log in.',
+        bad: 'Accepts 9999 and lets you in.' },
+      { code: 'C.5', title: 'Correct PIN works',
+        action: 'Type 1234.',
+        good: 'Accepts PIN and goes to home dashboard.',
+        bad: 'Rejects 1234.' },
+      { code: 'C.6', title: 'Back button works on PIN screen',
+        action: 'Go back to language picker. Pick English. Pick Rajan. Now tap back arrow on PIN screen.',
+        good: 'Returns to worker picker.',
+        bad: 'Goes somewhere weird or crashes.' }
+    ]
+  },
+  {
+    letter: 'D', title: 'Home dashboard', time: '5 min',
+    intro: 'After login you should see the home screen.',
+    items: [
+      { code: 'D.1', title: 'Greeting with worker name',
+        action: 'Look at top of dashboard.',
+        good: '"Namaste, Rajan" or similar greeting with his initial visible.' },
+      { code: 'D.2', title: 'Progress ring visible',
+        action: 'Look for circular progress indicator.',
+        good: 'Circular progress ring showing percentage (probably 0% on first login).' },
+      { code: 'D.3', title: 'Streak counter visible',
+        action: 'Look for streak chip.',
+        good: 'Small chip showing "7 day streak" or similar.' },
+      { code: 'D.4', title: 'Continue card shows Bathroom module',
+        action: 'Look at the main card.',
+        good: '"Continue" card showing Bathroom module.' },
+      { code: 'D.5', title: 'Field Mode and All Modules buttons',
+        action: 'Look for the two big buttons.',
+        good: 'Two big buttons: "Field Mode" (dark) and "All Modules".' },
+      { code: 'D.6', title: 'Bottom navigation with 4 icons',
+        action: 'Look at bottom of screen.',
+        good: 'Bottom nav with Home, Learn, Field, Me icons.' },
+      { code: 'D.7', title: 'All 4 bottom nav buttons work',
+        action: 'Tap each of the 4 icons. Then tap Home to return.',
+        good: 'Home → dashboard. Learn → module library. Field → dark Field Mode. Me → profile.',
+        bad: 'Any of them does not work, or takes you to the wrong screen.' }
+    ]
+  },
+  {
+    letter: 'E', title: 'Module library', time: '3 min',
+    intro: 'Tap Learn in bottom nav.',
+    items: [
+      { code: 'E.1', title: 'Four categories visible',
+        action: 'Look at the module library.',
+        good: '4 categories: Basics, Rooms, Machines, Special.' },
+      { code: 'E.2', title: 'Modules correctly grouped',
+        action: 'Look under each category.',
+        good: 'Basics has PPE Usage, Cloth Color Coding. Rooms has Bathroom, Bedroom, Kitchen. Machines has Single Disc. Special has Sofa Shampooing, Bathroom Descaling.' },
+      { code: 'E.3', title: 'Locked modules show lock icon',
+        action: 'Look for lock icons.',
+        good: 'Bathroom — Standard Clean is available (no lock). Most others have lock icons 🔒.' },
+      { code: 'E.4', title: 'Locked modules cannot be opened',
+        action: 'Tap on Sofa Shampooing (locked).',
+        good: 'Nothing happens. Cannot open.',
+        bad: 'It opens anyway, or shows an error.' }
+    ]
+  },
+  {
+    letter: 'F', title: 'Bathroom module — full path',
+    time: '10 min',
+    intro: 'This is the most important section. Complete the entire training flow.',
+    items: [
+      { code: 'F.1', title: 'Module detail page loads',
+        action: 'Tap Bathroom — Standard Clean.',
+        good: 'YouTube video at top, info chips (Chemicals R1·1:10, Tools, Time, PPE), cloth color row, training flow list, yellow "Common mistake" card.' },
+      { code: 'F.2', title: 'YouTube video plays',
+        action: 'Tap play button on the video.',
+        good: 'Video plays. (Real Clean Warks content not required yet — placeholder is OK.)',
+        bad: 'Video does not play or shows error.' },
+      { code: 'F.3', title: 'Practice screen opens',
+        action: 'Tap on Practice.',
+        good: 'Screen shows "Step 1 of 7" with big number, icon, title ("Open the window"), description.' },
+      { code: 'F.4', title: 'Listen button speaks English',
+        action: 'Tap the Listen button on Step 1.',
+        good: 'Phone speaks the step title and description in English.',
+        bad: 'No sound, or wrong language.' },
+      { code: 'F.5', title: 'All 7 steps swipe through',
+        action: 'Tap Next 7 times to go through all steps.',
+        good: 'Each step has big number, icon, title, description, Listen button. Progress bar at top fills as you go.',
+        bad: 'Any step blank, missing, or showing error.' },
+      { code: 'F.6', title: 'Finish practice goes to checklist',
+        action: 'Tap "I understand, next" / "Finish" on Step 7.',
+        good: 'Checklist screen opens.' },
+      { code: 'F.7', title: 'Checklist has 8 items',
+        action: 'Count the checklist items.',
+        good: '8 items visible. Counter shows 0/8. "Start the quiz" button at bottom is greyed out (disabled).' },
+      { code: 'F.8', title: 'All 8 items can be ticked',
+        action: 'Tap each checklist item one by one.',
+        good: 'Each turns green with tick mark. Counter updates (1/8, 2/8...).',
+        bad: 'Some items cannot be ticked.' },
+      { code: 'F.9', title: 'Quiz button activates when all ticked',
+        action: 'After all 8 ticked, look at the bottom button.',
+        good: '"Start the quiz" button becomes active (blue, not greyed).' },
+      { code: 'F.10', title: 'Quiz starts with cloth color question',
+        action: 'Tap "Start the quiz".',
+        good: 'Quiz screen shows: "Which colour cloth is for the toilet?" with 4 colored options.' },
+      { code: 'F.11', title: 'Wrong answer rejected',
+        action: 'Tap Yellow.',
+        good: '"Try again" message appears. Yellow shown as wrong.',
+        bad: 'Yellow accepted as correct (Red is correct).' },
+      { code: 'F.12', title: 'Correct answer accepted',
+        action: 'Tap Red. Then Submit if needed.',
+        good: '"Correct!" message. Moves to next question.' },
+      { code: 'F.13', title: 'All 3 quiz questions answerable',
+        action: 'Answer questions 2 and 3.',
+        good: '3 questions total. All can be answered. After 3rd correct → certificate screen.' },
+      { code: 'F.14', title: 'Certificate screen shows',
+        action: 'Look at the celebration screen.',
+        good: 'Big celebration with stars, badge (Bathroom Certified), score 3/3, "Back to home" button.' },
+      { code: 'F.15', title: 'Back to home updates dashboard',
+        action: 'Tap "Back to home".',
+        good: 'Returns to dashboard. Progress ring now higher. Bathroom module shows green checkmark.',
+        bad: 'Progress does not update.' }
+    ]
+  },
+  {
+    letter: 'G', title: 'Field Mode', time: '5 min',
+    intro: 'Tap Field icon in bottom nav.',
+    items: [
+      { code: 'G.1', title: 'Dark themed screen',
+        action: 'Look at the Field Mode screen.',
+        good: 'Dark blue or black background. "FIELD MODE" title with "ON SITE" indicator. (Dark theme is intentional for use on-site in bright light.)' },
+      { code: 'G.2', title: 'Search bar present',
+        action: 'Tap the search box.',
+        good: 'Phone keyboard opens. (Typing is not required to work yet.)' },
+      { code: 'G.3', title: 'Quick action grid (4 cards)',
+        action: 'Look for the 2×2 grid.',
+        good: '4 dark cards: 30-second refresh, Chemical ratios, Safety alerts, Cloth color codes.' },
+      { code: 'G.4', title: 'Cloth color reference visible',
+        action: 'Look below the action grid.',
+        good: '5 colored squares with labels: Red (Toilet only), Yellow (General), Blue (Glass), Green (Kitchen), White (High-touch).' },
+      { code: 'G.5', title: 'Recent items section',
+        action: 'Look for "Recent on this site".',
+        good: '2-3 module rows visible.' },
+      { code: 'G.6', title: 'QR scan button does not crash',
+        action: 'Tap "Scan room QR code" button.',
+        good: 'Nothing happens or shows "coming soon". (QR scanner is intentionally not built yet.)',
+        bad: 'App crashes or shows ugly error.' }
+    ]
+  },
+  {
+    letter: 'H', title: 'Language switching — most important test', time: '5 min',
+    intro: 'This is the new fix. Test carefully.',
+    items: [
+      { code: 'H.1', title: 'English → Hindi switch works',
+        action: 'Tap Me tab. Tap language switcher. Tap हिन्दी.',
+        good: 'Entire app re-renders. Bottom nav names change to Hindi. Buttons change. Me page text changes.',
+        bad: 'Text stays in English, or only some text changes.' },
+      { code: 'H.2', title: 'Hindi → Malayalam — font changes',
+        action: 'Tap language switcher. Tap മലയാളം.',
+        good: 'Text mostly stays English (Malayalam translation not done yet), BUT font visibly changes to Malayalam-style.',
+        bad: 'Nothing happens. Page does NOT update. (This was the recent bug — flag immediately if still broken.)' },
+      { code: 'H.3', title: 'Malayalam → Odia — font changes',
+        action: 'Tap switcher. Tap ଓଡ଼ିଆ.',
+        good: 'Font changes again. Odia letters look rounded and different.',
+        bad: 'No font change.' },
+      { code: 'H.4', title: 'Odia → Tamil — font changes',
+        action: 'Tap switcher. Tap தமிழ்.',
+        good: 'Font changes to Tamil.',
+        bad: 'No change.' },
+      { code: 'H.5', title: 'Tamil → English — returns cleanly',
+        action: 'Tap switcher. Tap English.',
+        good: 'Returns to English.' },
+      { code: 'H.6', title: 'Language persists after closing app',
+        action: 'Switch to Hindi. Close the app completely (swipe away from recent apps). Reopen from home screen.',
+        good: 'Opens directly to home dashboard in Hindi. Skips language picker and login.',
+        bad: 'Goes back to English, or asks for language and PIN again.' }
+    ]
+  },
+  {
+    letter: 'I', title: 'Logout and per-worker progress', time: '3 min',
+    intro: 'Make sure each worker has separate progress.',
+    items: [
+      { code: 'I.1', title: 'Logout works',
+        action: 'Me tab → Log out.',
+        good: 'Returns to language picker (first screen).' },
+      { code: 'I.2', title: 'Login as different worker — separate progress',
+        action: 'Pick English. Pick Priya (red circle). PIN 1234.',
+        good: 'Priya\'s dashboard shows Bathroom as "in progress" or "not started" — NOT completed (only Rajan completed it).',
+        bad: 'Priya\'s dashboard shows Rajan\'s completed Bathroom badge. (Big problem — per-worker progress is broken.)' },
+      { code: 'I.3', title: 'Multiple workers stay separate',
+        action: 'Log Priya out. Pick another worker.',
+        good: 'Each worker has clean separate progress.' }
+    ]
+  },
+  {
+    letter: 'J', title: 'Offline test', time: '3 min',
+    intro: 'Test the app without internet.',
+    items: [
+      { code: 'J.1', title: 'Turn on Airplane Mode',
+        action: 'Turn on Airplane Mode (turns off WiFi and mobile data).',
+        good: 'You confirmed Airplane Mode is on.' },
+      { code: 'J.2', title: 'App opens offline',
+        action: 'Tap Clean Warks icon on home screen.',
+        good: 'App opens. At least language picker or login screen loads. Videos won\'t play offline — that is expected.',
+        bad: '"No internet connection" error and nothing else. App completely fails to open.' },
+      { code: 'J.3', title: 'Turn internet back on',
+        action: 'Turn off Airplane Mode.',
+        good: 'Back online.' }
+    ]
+  },
+  {
+    letter: 'K', title: 'Visual quality and feel', time: '5 min',
+    intro: 'Look at the overall feel of the app.',
+    items: [
+      { code: 'K.1', title: 'Fonts look good everywhere',
+        action: 'Browse through several screens.',
+        good: 'Text readable on every screen. Nothing cut off or overlapping. Fonts look professional.',
+        bad: 'Broken fonts, weird overlapping, childish or messy look.' },
+      { code: 'K.2', title: 'Brand colors consistent',
+        action: 'Look at the blue and accent colors.',
+        good: 'Clean Warks brand blue appears consistently. No unfinished-looking screens.' },
+      { code: 'K.3', title: 'Buttons big enough to tap',
+        action: 'Try tapping buttons with your finger (not nail tip).',
+        good: 'All buttons easy to tap. Nothing needs zoom to tap.',
+        bad: 'Buttons too small or too close together.' },
+      { code: 'K.4', title: 'Loading speed acceptable',
+        action: 'On 4G data, browse between screens.',
+        good: 'Every screen loads within 2-3 seconds.',
+        bad: 'Hanging or freezing for more than 5 seconds anywhere.' },
+      { code: 'K.5', title: 'Animations smooth',
+        action: 'Tap buttons, switch screens.',
+        good: 'Transitions feel smooth. Buttons give visual feedback when tapped.',
+        bad: 'Jerky or laggy animations.' }
+    ]
+  },
+  {
+    letter: 'L', title: 'Test on a SECOND phone (if available)',
+    time: '10 min',
+    intro: 'If possible, repeat key tests on another Android phone (especially a cheaper / older one). This catches bugs that only show up on certain phones. Skip this section if no second phone available.',
+    items: [
+      { code: 'L.1', title: 'App opens on second phone',
+        action: 'Open training.cleanwarks.com on second phone.',
+        good: 'Loads normally.' },
+      { code: 'L.2', title: 'Install works on second phone',
+        action: 'Try to install as home screen app.',
+        good: 'Installs and opens without browser bar.' },
+      { code: 'L.3', title: 'All 8 languages display on second phone',
+        action: 'Check language picker.',
+        good: 'All 8 scripts visible correctly (especially Assamese and Odia).',
+        bad: 'Empty boxes or question marks for any language.' },
+      { code: 'L.4', title: 'Audio coming soon for ml/as/or',
+        action: 'Tap speaker on Malayalam, Assamese, Odia.',
+        good: 'All three show "Audio coming soon".' },
+      { code: 'L.5', title: 'Bathroom module works end-to-end',
+        action: 'Go through full Bathroom training (B → Done).',
+        good: 'Completes without errors.' },
+      { code: 'L.6', title: 'Language switching works on second phone',
+        action: 'Switch through 3-4 languages on Me tab.',
+        good: 'All switches work.' }
+    ]
+  }
+];
+
+/* ---------- STATE ---------- */
+const STATE_KEY = 'cw-checklist-state-v1';
+let state = JSON.parse(localStorage.getItem(STATE_KEY) || '{}');
+let reporterName = state.__reporter || '';
+
+function save() { localStorage.setItem(STATE_KEY, JSON.stringify(state)); }
+function setState(code, value, note) {
+  state[code] = { v: value, n: note || '' };
+  save();
+  updateUI();
+}
+
+/* ---------- RENDER ---------- */
+function renderSections() {
+  const container = document.getElementById('sections');
+  CHECKLIST.forEach((sec, sIdx) => {
+    const det = document.createElement('details');
+    det.className = 'section';
+    if (sIdx === 0) det.open = true;
+    det.innerHTML = `
+      <summary class="section-head">
+        <div class="section-title">
+          <div class="section-letter sl-${sec.letter}">${sec.letter}</div>
+          <div>
+            <div class="section-name">${sec.title}</div>
+            <div class="section-time">⏱ ${sec.time}</div>
+          </div>
+        </div>
+        <div class="section-meta">
+          <div class="section-progress" data-section="${sec.letter}">0/${sec.items.length}</div>
+          <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+      </summary>
+      <div class="section-body">
+        <p class="section-intro">${sec.intro}</p>
+        ${sec.items.map(item => `
+          <div class="item" data-code="${item.code}">
+            <div class="item-head">
+              <div class="item-code">${item.code}</div>
+              <div class="item-title">${item.title}</div>
+            </div>
+            <div class="item-body">
+              <p><strong>Do:</strong> ${item.action}</p>
+              ${item.good ? `<p><span class="label-good">Good</span>${item.good}</p>` : ''}
+              ${item.bad ? `<p><span class="label-bad">Flag</span>${item.bad}</p>` : ''}
+            </div>
+            <div class="item-actions">
+              <button class="pf-btn pass-btn" data-code="${item.code}" data-action="pass">✓ Pass</button>
+              <button class="pf-btn fail-btn" data-code="${item.code}" data-action="fail">✕ Fail</button>
+              <button class="pf-btn skip-btn" data-code="${item.code}" data-action="skip">— Skip</button>
+            </div>
+            <div class="note-wrap" data-code="${item.code}">
+              <label>What went wrong? (Required if Failed)</label>
+              <textarea data-code="${item.code}" placeholder="Briefly describe what happened. Take a screenshot too."></textarea>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+    container.appendChild(det);
+  });
+
+  // Wire up buttons
+  document.querySelectorAll('.pf-btn').forEach(btn => {
+    btn.addEventListener('click', e => {
+      const code = btn.dataset.code;
+      const action = btn.dataset.action;
+      const current = state[code]?.v;
+      const note = state[code]?.n || '';
+      // Toggle off if same
+      if (current === action) {
+        delete state[code]; save(); updateUI();
+      } else {
+        setState(code, action, note);
+      }
+    });
+  });
+  document.querySelectorAll('textarea[data-code]').forEach(ta => {
+    ta.addEventListener('input', e => {
+      const code = ta.dataset.code;
+      if (state[code]) {
+        state[code].n = ta.value;
+        save();
+      }
+    });
+  });
+}
+
+function updateUI() {
+  // Restore button states & notes
+  let totalItems = 0, totalDone = 0, pass = 0, fail = 0, skip = 0;
+  CHECKLIST.forEach(sec => {
+    let sDone = 0, sFail = 0;
+    sec.items.forEach(item => {
+      totalItems++;
+      const s = state[item.code];
+      const buttons = document.querySelectorAll(`.pf-btn[data-code="${item.code}"]`);
+      buttons.forEach(b => b.removeAttribute('data-state'));
+      const noteWrap = document.querySelector(`.note-wrap[data-code="${item.code}"]`);
+      const noteTa = document.querySelector(`textarea[data-code="${item.code}"]`);
+
+      if (s) {
+        totalDone++; sDone++;
+        if (s.v === 'pass') pass++;
+        if (s.v === 'fail') { fail++; sFail++; }
+        if (s.v === 'skip') skip++;
+        const btn = document.querySelector(`.pf-btn[data-code="${item.code}"][data-action="${s.v}"]`);
+        if (btn) btn.setAttribute('data-state', s.v);
+        if (s.v === 'fail') noteWrap.classList.add('show');
+        else noteWrap.classList.remove('show');
+        if (noteTa && noteTa.value !== (s.n || '')) noteTa.value = s.n || '';
+      } else {
+        noteWrap.classList.remove('show');
+      }
+    });
+    const sp = document.querySelector(`.section-progress[data-section="${sec.letter}"]`);
+    if (sp) {
+      sp.textContent = `${sDone}/${sec.items.length}`;
+      sp.classList.toggle('complete', sDone === sec.items.length && sFail === 0);
+      sp.classList.toggle('has-fail', sFail > 0);
+    }
+  });
+
+  document.getElementById('progressLabel').textContent = `${totalDone} of ${totalItems} tests done`;
+  document.getElementById('progressBar').style.width = `${(totalDone / totalItems) * 100}%`;
+  document.getElementById('passPill').textContent = `✓ ${pass}`;
+  document.getElementById('failPill').textContent = `✕ ${fail}`;
+
+  // CTA
+  const ctaTitle = document.getElementById('ctaTitle');
+  const ctaSub = document.getElementById('ctaSub');
+  const submitBtn = document.getElementById('submitBtn');
+  if (totalDone === 0) {
+    ctaTitle.textContent = 'Start testing';
+    ctaSub.textContent = `${totalItems} tests to go`;
+    submitBtn.disabled = true;
+  } else if (totalDone < totalItems) {
+    ctaTitle.textContent = `${totalDone} of ${totalItems} done`;
+    ctaSub.textContent = `${totalItems - totalDone} more to go`;
+    submitBtn.disabled = false;
+  } else {
+    ctaTitle.textContent = 'All done!';
+    ctaSub.textContent = `${pass} pass · ${fail} fail · ${skip} skip`;
+    submitBtn.disabled = false;
+  }
+}
+
+/* ---------- REPORT GENERATION ---------- */
+function buildReport() {
+  let pass = 0, fail = 0, skip = 0;
+  const failures = [];
+  const skipped = [];
+
+  CHECKLIST.forEach(sec => {
+    sec.items.forEach(item => {
+      const s = state[item.code];
+      if (!s) return;
+      if (s.v === 'pass') pass++;
+      if (s.v === 'fail') {
+        fail++;
+        failures.push({ code: item.code, title: item.title, note: s.n || '(no note)' });
+      }
+      if (s.v === 'skip') {
+        skip++;
+        skipped.push({ code: item.code, title: item.title });
+      }
+    });
+  });
+
+  const name = document.getElementById('reporterName').value || '(name not provided)';
+  const date = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+
+  let txt = `*Clean Warks Training App — Test Report*\n`;
+  txt += `Tester: ${name}\n`;
+  txt += `Date: ${date}\n\n`;
+  txt += `*Summary*\n`;
+  txt += `✅ Pass: ${pass}\n`;
+  txt += `❌ Fail: ${fail}\n`;
+  txt += `⏭ Skip: ${skip}\n\n`;
+
+  if (failures.length > 0) {
+    txt += `*❌ Issues to fix (${failures.length}):*\n`;
+    failures.forEach(f => {
+      txt += `\n${f.code} — ${f.title}\nNote: ${f.note}\n`;
+    });
+    txt += `\n📸 Please send screenshots for each failure above.\n`;
+  } else {
+    txt += `*🎉 No issues found — all tests passed.*\n`;
+  }
+
+  if (skipped.length > 0) {
+    txt += `\n*Skipped tests:*\n`;
+    skipped.forEach(s => { txt += `${s.code} — ${s.title}\n`; });
+  }
+
+  return { txt, pass, fail, skip };
+}
+
+/* ---------- MODAL ---------- */
+document.getElementById('submitBtn').addEventListener('click', () => {
+  const { txt, pass, fail, skip } = buildReport();
+  document.getElementById('finalPass').textContent = pass;
+  document.getElementById('finalFail').textContent = fail;
+  document.getElementById('finalSkip').textContent = skip;
+  document.getElementById('reportBox').textContent = txt;
+  document.getElementById('reporterName').value = reporterName;
+  document.getElementById('modalBg').classList.add('open');
+});
+
+document.getElementById('reporterName').addEventListener('input', e => {
+  reporterName = e.target.value;
+  state.__reporter = reporterName;
+  save();
+  // Re-build report on name change
+  const { txt } = buildReport();
+  document.getElementById('reportBox').textContent = txt;
+});
+
+document.getElementById('closeBtn').addEventListener('click', () => {
+  document.getElementById('modalBg').classList.remove('open');
+});
+
+document.getElementById('copyBtn').addEventListener('click', async () => {
+  const txt = document.getElementById('reportBox').textContent;
+  try {
+    await navigator.clipboard.writeText(txt);
+    const c = document.getElementById('copied');
+    c.classList.add('show');
+    setTimeout(() => c.classList.remove('show'), 2000);
+  } catch (err) {
+    // Fallback for older devices
+    const ta = document.createElement('textarea');
+    ta.value = txt;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    const c = document.getElementById('copied');
+    c.classList.add('show');
+    setTimeout(() => c.classList.remove('show'), 2000);
+  }
+});
+
+document.getElementById('whatsappBtn').addEventListener('click', () => {
+  const txt = document.getElementById('reportBox').textContent;
+  const encoded = encodeURIComponent(txt);
+  window.open(`https://wa.me/?text=${encoded}`, '_blank');
+});
+
+document.getElementById('modalBg').addEventListener('click', e => {
+  if (e.target.id === 'modalBg') {
+    document.getElementById('modalBg').classList.remove('open');
+  }
+});
+
+document.getElementById('resetBtn').addEventListener('click', () => {
+  if (confirm('Clear all your answers and start over? This cannot be undone.')) {
+    localStorage.removeItem(STATE_KEY);
+    state = {};
+    document.querySelectorAll('textarea[data-code]').forEach(ta => ta.value = '');
+    updateUI();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+});
+
+/* ---------- INIT ---------- */
+renderSections();
+updateUI();
+</script>
+</body>
+</html>
