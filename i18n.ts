@@ -31,6 +31,8 @@ export default getRequestConfig(async () => {
     ? (raw as Locale)
     : "en";
 
+  console.log("[i18n.ts] cookie raw:", raw, "→ resolved locale:", locale);
+
   // Merge English as base so missing keys fall back to English
   const messages = { ...en, ...MESSAGE_MAP[locale] };
 
