@@ -1,17 +1,28 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
 import { Volume2, ChevronRight, Sparkles } from "lucide-react";
 import { LANGS, LANG_META, FONT_CLASS_BY_LANG } from "@/lib/i18n/config";
 import { speak, hasTTSSupport } from "@/lib/i18n/speech";
 
 export default function LanguagePickerPage() {
-  const router = useRouter();
+  const [previousLang, setPreviousLang] = useState<string | null>(null);
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("cw-locale");
+      if (saved) setPreviousLang(saved);
+    } catch {}
+  }, []);
 
   const pickLang = (lang: string) => {
-    localStorage.setItem("cw-lang", lang);
-    document.cookie = `lang=${lang}; path=/; max-age=${60 * 60 * 24 * 365}; SameSite=Lax`;
-    router.push("/login");
+    // Set cookie with explicit attributes — must match Me page switcher exactly
+    const oneYear = 60 * 60 * 24 * 365;
+    document.cookie = `lang=${lang}; path=/; max-age=${oneYear}; SameSite=Lax`;
+    // Persist for cold start
+    try { localStorage.setItem("cw-locale", lang); } catch {}
+    // Hard navigation to login
+    window.location.assign("/login");
   };
 
   const playWelcome = (lang: string, e: React.MouseEvent) => {
@@ -58,6 +69,7 @@ export default function LanguagePickerPage() {
           const meta = LANG_META[lang];
           const fontClass = FONT_CLASS_BY_LANG[lang];
           const ttsAvailable = !["ml", "as", "or"].includes(lang);
+          const isPrevious = lang === previousLang;
 
           return (
             <button
@@ -65,8 +77,8 @@ export default function LanguagePickerPage() {
               onClick={() => pickLang(lang)}
               className="flex items-center justify-between w-full rounded-2xl px-5 py-4 transition active:scale-[0.98]"
               style={{
-                background: "#fff",
-                border: "1.5px solid #E7E2D8",
+                background: isPrevious ? "#468dcb0D" : "#fff",
+                border: `1.5px solid ${isPrevious ? "#468dcb" : "#E7E2D8"}`,
                 boxShadow: "0 1px 0 rgba(0,0,0,0.02)",
               }}
             >

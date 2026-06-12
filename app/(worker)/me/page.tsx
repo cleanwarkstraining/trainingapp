@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useState, useTransition } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { Languages, Volume2, Settings, X, ChevronRight } from "lucide-react";
 import { WORKERS } from "@/lib/data/mock-workers";
@@ -9,6 +8,8 @@ import { LANGS, LANG_META } from "@/lib/i18n/config";
 import { BottomNav } from "@/components/worker/BottomNav";
 import { Stat } from "@/components/worker/Stat";
 import { speak, hasTTSSupport } from "@/lib/i18n/speech";
+import { useProgress } from "@/lib/progress";
+import { MODULES } from "@/lib/data/mock-modules";
 
 function Row({
   icon: Icon,
@@ -40,13 +41,11 @@ function Row({
 }
 
 export default function MePage() {
-  const router = useRouter();
   const t = useTranslations();
   const currentLocale = useLocale();
-  const [isPending, startTransition] = useTransition();
+  const { progress } = useProgress();
   const [worker, setWorker] = useState(WORKERS[0]);
   const [showLangPicker, setShowLangPicker] = useState(false);
-  const [currentLang, setCurrentLang] = useState(currentLocale);
 
   useEffect(() => {
     const wid = localStorage.getItem("cw-worker");
@@ -55,34 +54,34 @@ export default function MePage() {
   }, []);
 
   const switchLang = (lang: string) => {
-    if (lang === currentLang) {
+    if (lang === currentLocale) {
       setShowLangPicker(false);
       return;
     }
-    localStorage.setItem("cw-lang", lang);
-    document.cookie = `lang=${lang}; path=/; max-age=${60 * 60 * 24 * 365}; SameSite=Lax`;
-    setCurrentLang(lang);
-    setShowLangPicker(false);
-    startTransition(() => {
-      router.refresh();
-    });
+    // Set cookie with explicit attributes — must match across all writes
+    const oneYear = 60 * 60 * 24 * 365;
+    document.cookie = `lang=${lang}; path=/; max-age=${oneYear}; SameSite=Lax`;
+    // Persist for cold start
+    try { localStorage.setItem("cw-locale", lang); } catch {}
+    // Hard navigation — bypasses all caching (browser, Next.js, service worker)
+    window.location.assign(window.location.pathname);
   };
 
   const logout = () => {
     localStorage.removeItem("cw-worker");
-    localStorage.removeItem("cw-lang");
-    localStorage.removeItem("cw-progress");
-    document.cookie = "lang=;path=/;max-age=0";
-    router.push("/");
+    localStorage.removeItem("cw-locale");
+    document.cookie = "lang=; path=/; max-age=0; SameSite=Lax";
+    window.location.assign("/");
   };
 
   const testAudio = () => {
-    if (hasTTSSupport(currentLang)) {
-      speak({ text: t("welcome"), lang: currentLang });
+    if (hasTTSSupport(currentLocale)) {
+      speak({ text: t("welcome"), lang: currentLocale });
     }
   };
 
-  const langMeta = LANG_META[currentLang as keyof typeof LANG_META];
+  const langMeta = LANG_META[currentLocale as keyof typeof LANG_META];
+  const completedCount = MODULES.filter((m) => progress[m.id]?.status === "completed").length;
 
   return (
     <div className="px-5 pt-5 pb-24 min-h-dvh" style={{ background: "#FAF7F2" }}>
@@ -98,9 +97,9 @@ export default function MePage() {
       </div>
 
       <div className="grid grid-cols-3 gap-3 mt-6">
-        <Stat label={t("completed")} value="2" color="#2E8B57" />
+        <Stat label={t("completed")} value={String(completedCount)} color="#2E8B57" />
         <Stat label={t("dayStreak")} value="7" color="#F4A621" />
-        <Stat label={t("badges")} value="2" color="#4B8EC8" />
+        <Stat label={t("badges")} value={String(completedCount)} color="#4B8EC8" />
       </div>
 
       <div className="mt-6 rounded-2xl overflow-hidden" style={{ background: "#fff", border: "1.5px solid #E7E2D8" }}>
@@ -132,16 +131,15 @@ export default function MePage() {
             <div className="space-y-2">
               {LANGS.map((lang) => {
                 const meta = LANG_META[lang];
-                const isActive = lang === currentLang;
+                const isActive = lang === currentLocale;
                 return (
                   <button
                     key={lang}
                     onClick={() => switchLang(lang)}
-                    disabled={isPending}
-                    className={`w-full flex items-center justify-between p-3 rounded-xl transition ${isPending ? "opacity-50" : ""}`}
+                    className="w-full flex items-center justify-between p-3 rounded-xl transition"
                     style={{
-                      background: isActive ? "#4B8EC81A" : "#fff",
-                      border: `1.5px solid ${isActive ? "#4B8EC8" : "#E7E2D8"}`,
+                      background: isActive ? "#468dcb1A" : "#fff",
+                      border: `1.5px solid ${isActive ? "#468dcb" : "#E7E2D8"}`,
                     }}
                   >
                     <div>
@@ -149,7 +147,7 @@ export default function MePage() {
                       <div className="text-xs text-ink-3">{meta.name}</div>
                     </div>
                     {isActive && (
-                      <div className="w-5 h-5 rounded-full bg-brand flex items-center justify-center">
+                      <div className="w-5 h-5 rounded-full flex items-center justify-center" style={{ background: "#468dcb" }}>
                         <span className="text-white text-xs font-bold">✓</span>
                       </div>
                     )}

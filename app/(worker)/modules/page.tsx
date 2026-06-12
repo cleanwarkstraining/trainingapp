@@ -35,11 +35,14 @@ export default function ModuleListPage() {
             </div>
             <div className="space-y-2.5">
               {items.map((m) => {
-                const status = progress[m.id]?.status === "completed"
+                const pStatus = progress[m.id]?.status;
+                const status = pStatus === "completed"
                   ? "completed"
-                  : progress[m.id]?.status === "in_progress"
+                  : pStatus === "in_progress"
                   ? "in_progress"
-                  : m.status;
+                  : m.status === "locked"
+                  ? "locked"
+                  : "available";
                 const Icon = getIcon(m.iconName);
 
                 return (

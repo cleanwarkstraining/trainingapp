@@ -32,7 +32,9 @@ export default function HomePage() {
   const totalCount = MODULES.length;
   const pct = Math.round((completedCount / totalCount) * 100);
 
-  const inProg = MODULES.find((m) => progress[m.id]?.status === "in_progress") || MODULES[2];
+  const inProg = MODULES.find((m) => progress[m.id]?.status === "in_progress")
+    || MODULES.find((m) => m.status === "available" && progress[m.id]?.status !== "completed")
+    || MODULES[2];
   const InProgIcon = getIcon(inProg.iconName);
 
   return (
@@ -157,13 +159,13 @@ export default function HomePage() {
           <div className="text-xs font-bold uppercase tracking-wider text-ink-3" style={{ letterSpacing: "0.08em" }}>
             {t("badges")}
           </div>
-          <span className="text-xs font-semibold text-brand">2 {t("earned")}</span>
+          <span className="text-xs font-semibold text-brand">{completedCount} {t("earned")}</span>
         </div>
         <div className="flex gap-3 overflow-x-auto pb-2 -mx-5 px-5" style={{ scrollbarWidth: "none" }}>
-          <BadgeChip earned label={t("ppe")} icon={ShieldCheck} color="#2E8B57" />
-          <BadgeChip earned label={t("clothCoding")} icon={Sparkles} color="#4B8EC8" />
-          <BadgeChip label={t("bathroomStandard")} icon={Bath} color="#94A3B8" />
-          <BadgeChip label={t("singleDisc")} icon={RotateCw} color="#94A3B8" />
+          <BadgeChip earned={progress["ppe"]?.status === "completed"} label={t("ppe")} icon={ShieldCheck} color={progress["ppe"]?.status === "completed" ? "#2E8B57" : "#94A3B8"} />
+          <BadgeChip earned={progress["cloth"]?.status === "completed"} label={t("clothCoding")} icon={Sparkles} color={progress["cloth"]?.status === "completed" ? "#4B8EC8" : "#94A3B8"} />
+          <BadgeChip earned={progress["bathroom"]?.status === "completed"} label={t("bathroomStandard")} icon={Bath} color={progress["bathroom"]?.status === "completed" ? "#4B8EC8" : "#94A3B8"} />
+          <BadgeChip earned={progress["singledisc"]?.status === "completed"} label={t("singleDisc")} icon={RotateCw} color={progress["singledisc"]?.status === "completed" ? "#1F2A3A" : "#94A3B8"} />
         </div>
       </div>
 

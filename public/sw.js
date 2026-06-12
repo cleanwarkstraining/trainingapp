@@ -1,54 +1,43 @@
-const CACHE = "cw-v2";
-const PRECACHE = ["/", "/manifest.json", "/icons/icon-192.png"];
+const CACHE = "cw-v3";
 
-self.addEventListener("install", (e) => {
-  e.waitUntil(caches.open(CACHE).then((c) => c.addAll(PRECACHE)));
+self.addEventListener("install", (event) => {
   self.skipWaiting();
-});
-
-self.addEventListener("activate", (e) => {
-  e.waitUntil(
-    caches.keys().then((names) =>
-      Promise.all(names.filter((n) => n !== CACHE).map((n) => caches.delete(n)))
+  event.waitUntil(
+    caches.open(CACHE).then((cache) =>
+      cache.addAll(["/", "/login", "/manifest.json", "/icons/icon-192.png"])
     )
   );
-  self.clients.claim();
 });
 
-self.addEventListener("fetch", (e) => {
-  if (e.request.method !== "GET") return;
+self.addEventListener("activate", (event) => {
+  event.waitUntil(
+    Promise.all([
+      caches.keys().then((keys) =>
+        Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)))
+      ),
+      self.clients.claim(),
+    ])
+  );
+});
 
-  // Network-first for navigation (HTML pages) and API calls
-  // so locale changes, auth, and dynamic data always get fresh responses
-  if (e.request.mode === "navigate" || e.request.url.includes("/api/")) {
-    e.respondWith(
-      fetch(e.request)
-        .then((r) => {
-          if (r.status === 200) {
-            const copy = r.clone();
-            caches.open(CACHE).then((cache) => cache.put(e.request, copy));
-          }
-          return r;
-        })
-        .catch(() => caches.match(e.request))
+self.addEventListener("message", (event) => {
+  if (event.data?.type === "SKIP_WAITING") self.skipWaiting();
+});
+
+self.addEventListener("fetch", (event) => {
+  const req = event.request;
+  if (req.method !== "GET") return;
+
+  // Network-first for navigation requests (HTML) — never serve stale HTML
+  if (req.mode === "navigate") {
+    event.respondWith(
+      fetch(req).catch(() => caches.match(req) || caches.match("/"))
     );
     return;
   }
 
   // Cache-first for static assets (JS, CSS, images, fonts)
-  e.respondWith(
-    caches.match(e.request).then(
-      (cached) =>
-        cached ||
-        fetch(e.request)
-          .then((r) => {
-            if (r.status === 200) {
-              const copy = r.clone();
-              caches.open(CACHE).then((cache) => cache.put(e.request, copy));
-            }
-            return r;
-          })
-          .catch(() => cached)
-    )
+  event.respondWith(
+    caches.match(req).then((cached) => cached || fetch(req))
   );
 });

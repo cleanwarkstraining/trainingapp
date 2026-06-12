@@ -30,7 +30,7 @@ export type Module = {
   descriptionKey?: string;
   iconName: string;
   durationMin: number;
-  status: "completed" | "in_progress" | "locked" | "available";
+  status: "available" | "locked";
   color: string;
   videoUrl?: string;
   steps: Step[];
@@ -46,7 +46,7 @@ export const MODULES: Module[] = [
     titleKey: "ppe",
     iconName: "ShieldCheck",
     durationMin: 5,
-    status: "completed",
+    status: "locked",
     color: "#2E8B57",
     steps: [],
     checklist: [],
@@ -59,7 +59,7 @@ export const MODULES: Module[] = [
     titleKey: "clothCoding",
     iconName: "Sparkles",
     durationMin: 4,
-    status: "completed",
+    status: "locked",
     color: "#3B82F6",
     steps: [],
     checklist: [],
@@ -72,7 +72,7 @@ export const MODULES: Module[] = [
     titleKey: "bathroomStandard",
     iconName: "Bath",
     durationMin: 12,
-    status: "in_progress",
+    status: "available",
     color: "#4B8EC8",
     videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
     steps: [
