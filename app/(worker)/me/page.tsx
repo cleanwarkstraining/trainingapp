@@ -40,42 +40,6 @@ function Row({
   );
 }
 
-function DebugStrip() {
-  const locale = useLocale();
-  const [cookieVal, setCookieVal] = useState("?");
-  const [localStorageVal, setLocalStorageVal] = useState("?");
-  const [pathname, setPathname] = useState("?");
-
-  useEffect(() => {
-    const cookies = document.cookie.split(";").map((c) => c.trim());
-    const langCookie = cookies.find((c) => c.startsWith("lang="));
-    setCookieVal(langCookie ? langCookie.split("=")[1] : "(not set)");
-    try { setLocalStorageVal(localStorage.getItem("cw-locale") || "(not set)"); }
-    catch { setLocalStorageVal("(error)"); }
-    setPathname(window.location.pathname);
-  }, [locale]);
-
-  return (
-    <div style={{
-      background: "#FEF3C7",
-      border: "2px solid #F4A621",
-      borderRadius: 8,
-      padding: 12,
-      margin: "12px 0",
-      fontFamily: "monospace",
-      fontSize: 11,
-      lineHeight: 1.6,
-      color: "#7A4A00",
-    }}>
-      <div style={{ fontWeight: 800, marginBottom: 4 }}>DEBUG STRIP (remove after fix)</div>
-      <div>useLocale(): <strong>{locale}</strong></div>
-      <div>Cookie lang: <strong>{cookieVal}</strong></div>
-      <div>localStorage cw-locale: <strong>{localStorageVal}</strong></div>
-      <div>Path: <strong>{pathname}</strong></div>
-    </div>
-  );
-}
-
 export default function MePage() {
   const t = useTranslations();
   const currentLocale = useLocale();
@@ -90,11 +54,7 @@ export default function MePage() {
   }, []);
 
   const switchLang = (lang: string) => {
-    console.log("[LangSwitch] START", { from: currentLocale, to: lang });
-    console.log("[LangSwitch] cookie before:", document.cookie);
-
     if (lang === currentLocale) {
-      console.log("[LangSwitch] same locale, skipping");
       setShowLangPicker(false);
       return;
     }
@@ -102,12 +62,9 @@ export default function MePage() {
     const oneYear = 60 * 60 * 24 * 365;
     document.cookie = `lang=${lang}; path=/; max-age=${oneYear}; SameSite=Lax`;
 
-    console.log("[LangSwitch] cookie after write:", document.cookie);
-
     try { localStorage.setItem("cw-locale", lang); }
-    catch (e) { console.error("[LangSwitch] localStorage error", e); }
+    catch (e) { console.error("localStorage error", e); }
 
-    console.log("[LangSwitch] navigating to", window.location.pathname);
     window.location.assign(window.location.pathname);
   };
 
@@ -129,7 +86,6 @@ export default function MePage() {
 
   return (
     <div className="px-5 pt-5 pb-24 min-h-dvh" style={{ background: "#FAF7F2" }}>
-      <DebugStrip />
       <div className="flex flex-col items-center text-center">
         <div
           className="w-24 h-24 rounded-full flex items-center justify-center font-bold text-4xl mb-3 font-display"

@@ -1,12 +1,13 @@
 import {
   Bath, Bed, ChefHat, Sofa, Droplets, RotateCw,
   ShieldCheck, Sparkles, Wind, FlaskConical, Clock,
-  Hand, type LucideIcon,
+  Hand, Eye, AlertTriangle, type LucideIcon,
 } from "lucide-react";
 
 const ICON_MAP: Record<string, LucideIcon> = {
   Bath, Bed, ChefHat, Sofa, Droplets, RotateCw,
-  ShieldCheck, Sparkles, Wind, FlaskConical, Clock, Hand,
+  ShieldCheck, Sparkles, Wind, FlaskConical, Clock,
+  Hand, Eye, AlertTriangle,
 };
 
 export function getIcon(name: string): LucideIcon {
